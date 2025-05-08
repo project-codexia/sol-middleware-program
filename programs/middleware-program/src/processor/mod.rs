@@ -4,8 +4,10 @@ use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, msg, 
 
 use crate::instruction::MiddlewareProgramInstruction;
 
-pub mod middleware_processor;
+mod middleware_processor;
+pub(crate) use middleware_processor::*;
 
+/// Process the instruction
 pub fn process_instruction<'a>(
     _program_id: &Pubkey,
     accounts: &'a [AccountInfo<'a>],

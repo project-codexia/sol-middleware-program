@@ -7,7 +7,7 @@ use solana_program::{
     program::invoke,
 };
 
-use crate::state::dynamic_instruction::DynamicInstruction;
+use crate::state::DynamicInstruction;
 
 #[repr(C)]
 #[derive(BorshSerialize, BorshDeserialize, PartialEq, Eq, Debug, Clone)]
