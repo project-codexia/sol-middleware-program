@@ -1,0 +1,21 @@
+{
+  "private": true,
+  "scripts": {
+    "programs:build": "./configs/scripts/program/build.sh",
+    "programs:clean": "./configs/scripts/program/clean.sh",
+    "generate": "pnpm generate:idls",
+    "generate:idls": "node ./configs/shank.cjs",
+    "lint:fix": "./configs/scripts/client/format-js.sh && ./configs/scripts/program/format.sh",
+    "format:fix": "pnpm lint:fix",
+    "lint": "./configs/scripts/client/lint-js.sh && ./configs/scripts/program/lint.sh",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "@metaplex-foundation/amman": "^0.12.1",
+    "@metaplex-foundation/kinobi": "0.18.8-alpha.0",
+    "@metaplex-foundation/shank-js": "^0.1.7",
+    "husky": "^9.0.11",
+    "typescript": "^4.9.4"
+  },
+  "packageManager": "pnpm@8.9.0"
+}
