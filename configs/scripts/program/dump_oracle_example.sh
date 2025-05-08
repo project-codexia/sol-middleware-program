@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXTERNAL_ID=("CBjML6h7T1c7EWZfDT5rdHGDEvunCEymBBKM2cmuJTtC")
+EXTERNAL_ID=("HbqqVr4FNUhzqWBRie617uRKkX35wqr2KJDxA9r5MPqs")
 EXTERNAL_SO=("middleware_oracle_example.so")
 
 # output colours

@@ -1,5 +1,3 @@
-pub mod DynamicInstruction;
-pub use DynamicInstruction::*;
+pub mod dynamic_instruction;
 
-pub mod MetaEntry;
-pub use MetaEntry::*;
+pub mod meta_entry;

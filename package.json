@@ -2,6 +2,7 @@
   "private": true,
   "scripts": {
     "programs:build": "./configs/scripts/program/build.sh",
+    "programs:test": "RUST_LOG=error ./configs/scripts/program/test.sh",
     "programs:clean": "./configs/scripts/program/clean.sh",
     "generate": "pnpm generate:idls",
     "generate:idls": "node ./configs/shank.cjs",

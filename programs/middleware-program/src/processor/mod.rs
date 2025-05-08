@@ -1,21 +1,22 @@
+use borsh::BorshDeserialize;
+use middleware_processor::middleware;
 use solana_program::{account_info::AccountInfo, entrypoint::ProgramResult, msg, pubkey::Pubkey};
 
-use crate::instruction::ProgramInstruction;
+use crate::instruction::MiddlewareProgramInstruction;
 
 pub mod middleware_processor;
-pub use middleware_processor::*;
 
-pub fn process_instruction(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
+pub fn process_instruction<'a>(
+    _program_id: &Pubkey,
+    accounts: &'a [AccountInfo<'a>],
     instruction_data: &[u8],
 ) -> ProgramResult {
-    let instruction = ProgramInstruction::unpack(instruction_data)?;
+    let instruction = MiddlewareProgramInstruction::try_from_slice(instruction_data)?;
 
     match instruction {
-        ProgramInstruction::MiddlewareInstruction { instruction_data } => {
-            msg!("Processing MiddlewareInstruction");
-            process_middleware_instruction(program_id, accounts, &instruction_data)
+        MiddlewareProgramInstruction::Middleware(args) => {
+            msg!("Instruction: Middleware");
+            middleware(accounts, args)
         }
     }
 }

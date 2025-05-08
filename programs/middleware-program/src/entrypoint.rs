@@ -9,22 +9,19 @@ use crate::processor;
 entrypoint!(process_instruction);
 
 // program entrypoint's implementation
-pub fn process_instruction(
-    program_id: &Pubkey,
-    accounts: &[AccountInfo],
-    _instruction_data: &[u8],
+pub fn process_instruction<'a>(
+    program_id: &'a Pubkey,
+    accounts: &'a [AccountInfo<'a>],
+    instruction_data: &[u8],
 ) -> ProgramResult {
     // log a message to the blockchain
     msg!(
-        "Welcome to the codexia Solana Middleware Program: {}",
+        "Welcome to the Codexia Solana Middleware Program: {}",
         program_id
     );
-    msg!(
-        "process_instruction: Program {} is executed with {} account(s) and the following data={:?}",
-        program_id,
-        accounts.len(),
-        _instruction_data
-    );
-    processor::process_instruction(program_id, accounts, _instruction_data)?;
+    if let Err(error) = processor::process_instruction(program_id, accounts, instruction_data) {
+        // catch the error so we can print it
+        return Err(error);
+    }
     Ok(())
 }

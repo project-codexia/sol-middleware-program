@@ -1,24 +1,36 @@
-use borsh::BorshDeserialize;
+use borsh::{BorshDeserialize, BorshSerialize};
 use solana_program::{
     account_info::{next_account_info, AccountInfo},
     entrypoint::ProgramResult,
     instruction::{AccountMeta, Instruction},
     msg,
     program::invoke,
-    pubkey::Pubkey,
 };
 
-use crate::state::DynamicInstruction::DynamicInstruction;
+use crate::state::dynamic_instruction::DynamicInstruction;
 
-pub fn process_middleware_instruction(
-    _program_id: &Pubkey,
+#[repr(C)]
+#[derive(BorshSerialize, BorshDeserialize, PartialEq, Eq, Debug, Clone)]
+pub(crate) struct MiddlewareArgs {
+    pub(crate) instruction_data: Vec<u8>,
+}
+
+pub(crate) fn middleware<'a>(
+    accounts: &'a [AccountInfo<'a>],
+    args: MiddlewareArgs,
+) -> ProgramResult {
+    process_middleware_instruction(accounts, args)
+}
+
+pub(crate) fn process_middleware_instruction(
     accounts: &[AccountInfo],
-    instruction_data: &[u8],
+    args: MiddlewareArgs,
 ) -> ProgramResult {
     let mut accounts_iter = accounts.iter();
-    let _payer = next_account_info(&mut accounts_iter)?; // POW : pay for the subscription
+    let _payer = next_account_info(&mut accounts_iter)?;
+    // POW : pay for the subscription
 
-    let dynamic_ix = DynamicInstruction::try_from_slice(instruction_data)?;
+    let dynamic_ix = DynamicInstruction::try_from_slice(&args.instruction_data)?;
     msg!(
         "Invoking target program: {:?}",
         dynamic_ix.target_program_id
