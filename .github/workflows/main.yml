@@ -8,14 +8,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  client-sdk:
-    if: needs.changes.outputs.rust_changed == 'true'
-    uses: ./.github/workflows/client-sdk.yml
-    with:
-      level: "patch"
-      dry_run: "false"
-    secrets: inherit
-
   changes:
     runs-on: ubuntu-latest
     outputs:
@@ -28,9 +20,24 @@ jobs:
         id: check
         run: |
           echo "Checking if clients/rust changed..."
-          if git diff --name-only origin/master...HEAD | grep -q "^clients/rust/"; then
+
+          CHANGED_FILES=$(git diff --name-only origin/master...HEAD)
+          echo "Changed files:"
+          echo "$CHANGED_FILES"
+
+          if echo "$CHANGED_FILES" | grep -q "^clients/rust/"; then
             echo "Rust SDK changed"
-            echo "rust_changed=true" >> $GITHUB_OUTPUT
+            echo "rust_changed=true" >> "$GITHUB_OUTPUT"
           else
             echo "No changes in Rust SDK"
-            echo "rust_changed=false" >> $GITHUB_OUTPUT
+            echo "rust_changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  client-sdk:
+    needs: changes
+    if: needs.changes.outputs.rust_changed == 'true'
+    uses: ./.github/workflows/client-sdk.yml
+    with:
+      level: "patch"
+      dry_run: "false"
+    secrets: inherit
