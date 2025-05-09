@@ -10,5 +10,3 @@ on:
 jobs:
   client-sdk:
     uses: ./.github/workflows/client-sdk.yml
-    secrets:
-      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
