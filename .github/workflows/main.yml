@@ -10,6 +10,5 @@ on:
 jobs:
   client-sdk:
     uses: ./.github/workflows/client-sdk.yml
-
-  solana-program:
-    uses: ./.github/workflows/solana-program.yml
+    secrets:
+      CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
