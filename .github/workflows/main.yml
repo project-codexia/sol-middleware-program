@@ -1,0 +1,15 @@
+name: Main Workflow Trigger
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  client-sdk:
+    uses: ./.github/workflows/client-sdk.yml
+
+  solana-program:
+    uses: ./.github/workflows/solana-program.yml
