@@ -5,7 +5,7 @@ on:
 
 jobs:
   solana-program:
-    name: Solana Program (Build, Test, Deploy)
+    name: Build, Test & Deploy Solana Program
     runs-on: ubuntu-latest
 
     steps:
@@ -32,10 +32,10 @@ jobs:
         run: echo "${{ secrets.SOLANA_DEPLOY_KEYPAIR }}" > keypair.json
 
       - name: Build Solana Program
-        run: cargo build-bpf --manifest-path program/Cargo.toml
+        run: cargo build-bpf --manifest-path programs/spi-program/Cargo.toml
 
       - name: Test Solana Program
-        run: cargo test-bpf --manifest-path program/Cargo.toml
+        run: cargo test-bpf --manifest-path programs/spi-program/Cargo.toml
 
       - name: Deploy Solana Program
-        run: solana program deploy ./target/deploy/sol_middleware_program.so
+        run: solana program deploy ./target/deploy/spi_program.so
