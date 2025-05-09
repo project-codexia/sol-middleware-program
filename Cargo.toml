@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["clients/rust", "programs/middleware-program"]
+members = ["clients/rust", "programs/spi-program"]
 
 [profile.release]
 overflow-checks = true # Enable integer overflow checks.
