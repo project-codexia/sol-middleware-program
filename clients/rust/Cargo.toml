@@ -1,9 +1,11 @@
 [package]
 name = "spi-program"
-version = "0.0.1-beta.1"
 edition = "2021"
 repository = "https://github.com/project-codexia/sol-middleware-program"
 description = "Solana program for Solana Progam Interface (SPI) middleware"
+license-file = "../../LICENSE"
+readme = "README.md"
+version = "0.0.1-beta.1"
 
 [features]
 anchor = ["dep:anchor-lang", "kaigan/anchor"]
