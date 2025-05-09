@@ -23,6 +23,7 @@ jobs:
 
       - name: Test Rust SDK
         run: cargo test --manifest-path clients/rust/Cargo.toml
+        
       - name: Debug GitHub context
         run: |
           echo "github.ref: ${{ github.ref }}"
@@ -30,9 +31,9 @@ jobs:
           echo "github.event_name: ${{ github.event_name }}"
 
       - name: Debug Token
-      run: echo "Token: $CARGO_REGISTRY_TOKEN"
-      env:
-        CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: echo "Token: $CARGO_REGISTRY_TOKEN"
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
     
       - name: Publish to crates.io  
