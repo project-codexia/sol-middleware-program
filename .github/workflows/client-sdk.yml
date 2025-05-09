@@ -33,6 +33,8 @@ jobs:
           echo "github.event_name: ${{ github.event_name }}"
 
       - name: Publish to crates.io
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
           if [ "${{ inputs.level }}" == "version" ]; then
             BUMP=${{ inputs.version }}
@@ -47,7 +49,7 @@ jobs:
           fi
 
           echo "Cargo logging in"
-          cargo login ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          cargo login $env:CARGO_REGISTRY_TOKEN
           echo "Cargo release"
           cargo release $BUMP $OPTIONS
 
