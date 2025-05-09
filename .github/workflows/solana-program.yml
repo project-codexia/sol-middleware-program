@@ -1,0 +1,41 @@
+name: Solana Program Workflow
+
+on:
+  workflow_call:
+
+jobs:
+  solana-program:
+    name: Solana Program (Build, Test, Deploy)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+
+      - name: Install Solana CLI
+        run: |
+          sh -c "$(curl -sSfL https://release.solana.com/v1.18.4/install)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+
+      - name: Set Solana config
+        run: |
+          solana config set --url ${{ secrets.SOLANA_RPC_URL }}
+          solana config set --keypair ./keypair.json
+          
+      - name: Restore deploy keypair
+        run: echo "${{ secrets.SOLANA_DEPLOY_KEYPAIR }}" > keypair.json
+
+      - name: Build Solana Program
+        run: cargo build-bpf --manifest-path program/Cargo.toml
+
+      - name: Test Solana Program
+        run: cargo test-bpf --manifest-path program/Cargo.toml
+
+      - name: Deploy Solana Program
+        run: solana program deploy ./target/deploy/sol_middleware_program.so
