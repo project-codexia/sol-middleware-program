@@ -2,53 +2,33 @@ name: Client SDK Workflow
 
 on:
   workflow_call:
+    inputs:
+      runner-name:
+        required: false
+        type: string
+        default: ubuntu-latest
+      crate:
+        required: true
+        type: string
+    secrets:
+      CRATES_IO_API_TOKEN:
+        required: true
 
 jobs:
   client-sdk:
     name: Build & Publish Rust Client
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    runs-on: ${{ inputs.runner-name }}
     steps:
-      - name: Checkout repository
+      - name: checkout
         uses: actions/checkout@v3
 
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          override: true
+      - name: install rust
+        uses: dtolnay/rust-toolchain@stable
 
-      - name: Build Rust SDK
-        run: cargo build --manifest-path clients/rust/Cargo.toml --release
-
-      - name: Test Rust SDK
-        run: cargo test --manifest-path clients/rust/Cargo.toml
-
-      - name: Debug GitHub context
-        run: |
-          echo "github.ref: ${{ github.ref }}"
-          echo "github.ref_name: ${{ github.ref_name }}"
-          echo "github.event_name: ${{ github.event_name }}"
-
-      - name: Publish to crates.io
+      - name: publish to crates.io
+        run: cargo xtask publish ${{ inputs.crate }}
         env:
-          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: |
-          if [ "${{ inputs.level }}" == "version" ]; then
-            BUMP=${{ inputs.version }}
-          else
-            BUMP=${{ inputs.level }}
-          fi
-
-          echo "Cargo logging in"
-          cargo login $env:CARGO_REGISTRY_TOKEN
-
-          echo $env:CARGO_REGISTRY_TOKEN
-
-          echo "Cargo release"
-          cargo publish --manifest-path clients/rust/Cargo.toml
+          CRATES_IO_API_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
 
       - name: Commit and tag new version
         uses: stefanzweifel/git-auto-commit-action@v4
