@@ -7,6 +7,10 @@ jobs:
   client-sdk:
     name: Build & Publish Rust Client
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      secrets: read
 
     steps:
       - name: Checkout repository
