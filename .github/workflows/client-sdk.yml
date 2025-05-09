@@ -2,7 +2,7 @@ name: Client SDK Workflow
 
 on:
   workflow_call:
-  inputs:
+    inputs:
       runner-name:
         required: false
         type: string
@@ -10,7 +10,7 @@ on:
       crate:
         required: true
         type: string
-    secrets:
+      secrets:
       CARGO_REGISTRY_TOKEN:
         required: true
 jobs:
