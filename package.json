@@ -4,11 +4,9 @@
     "programs:build": "./configs/scripts/program/build.sh",
     "programs:test": "RUST_LOG=error ./configs/scripts/program/test.sh",
     "programs:clean": "./configs/scripts/program/clean.sh",
-    "generate": "pnpm generate:idls",
-    "generate:idls": "node ./configs/shank.cjs",
-    "lint:fix": "./configs/scripts/client/format-js.sh && ./configs/scripts/program/format.sh",
+    "lint:fix": "./configs/scripts/program/format.sh",
     "format:fix": "pnpm lint:fix",
-    "lint": "./configs/scripts/client/lint-js.sh && ./configs/scripts/program/lint.sh",
+    "lint": "./configs/scripts/program/lint.sh",
     "prepare": "husky"
   },
   "devDependencies": {

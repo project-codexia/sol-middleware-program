@@ -1,7 +1,7 @@
 #!/bin/bash
 
 EXTERNAL_ID=("AtPDcrqAHATvnaerngsa1FpVzjXnY9tLwh3vkTpFBPCP")
-EXTERNAL_SO=("middleware_oracle_example.so")
+EXTERNAL_SO=("spi_oracle_example.so")
 
 # output colours
 RED() { echo $'\e[1;31m'$1$'\e[0m'; }
